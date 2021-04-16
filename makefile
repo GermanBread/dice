@@ -1,5 +1,5 @@
 All:
-	g++	*.cpp	-o	a.out
+	g++	*.cpp -O3 -o a.out
 
 Run run:
 	make

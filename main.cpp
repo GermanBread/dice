@@ -40,40 +40,49 @@ int drawDiceFace(short * face) {
     return 0;
 }
 
-int main() {
+short getFace() {
     using namespace std;
-
+    
     // Declare the output variable
-    short face = -1;
+    short _output = -1;
 
     // Get it's size (used for reading the buffer)
-    size_t size = sizeof(face);
+    size_t _size = sizeof(_output);
 
-    // Open /dev/urandom for read
-    ifstream urandom("/dev/urandom", ios::in|ios::binary);
+    // Open /dev/_urandom for read
+    ifstream _urandom("/dev/urandom", ios::in|ios::binary);
 
     // Check if the stream is open
-    if (urandom) {
-        urandom.read(reinterpret_cast<char *>(&face), size);
+    if (_urandom) {
+        _urandom.read(reinterpret_cast<char *>(&_output), _size);
         // Check if the read succeded
-        if (urandom) {
-            face %= 6;
-            face = abs(face);
+        if (_urandom) {
+            _output %= 6;
+            _output = abs(_output);
         } else {
-            cerr << "Failed to read /dev/urandom!";
-            face = -1;
+            cerr << "Failed to read /dev/_urandom! 0x1" << endl;
+            _output = -1;
         }
-        urandom.close();
+        _urandom.close();
     } else {
-        cerr << "Failed to open /dev/urandom!";
+        cerr << "Failed to open /dev/_urandom! 0x2" << endl;
     }
     
     // Add one
-    face++;
+    _output++;
+
+    return _output;
+}
+
+int main() {
+    using namespace std;
+
+    short _face = getFace();
     
     // Echo our random number
-    cout << "Number " << face << " has been rolled!" << endl << endl;
+    if (_face > 0)
+        cout << "Number " << _face << " has been rolled!" << endl << endl;
 
     // Draw the face
-    return drawDiceFace(&face);
+    return drawDiceFace(&_face);
 }
