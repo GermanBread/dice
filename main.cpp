@@ -1,41 +1,75 @@
-#include <iostream>
+#include <vector>
 #include <fstream>
+#include <cstdlib>
+#include <iostream>
 
-int drawDiceFace(short * face) {
+int drawDiceFaces(std::vector<short> values, const char* seperator) {
     using namespace std;
     
+    // Counts from 0. -1 would mean no faces
+    short _inputs = values.size() - 1;
+
     // Check for invalid faces
-    if (*face <= 0 || *face > 6) return 1;
+    for (short face : values)
+        if (face <= 0 || face > 6) return 1;
 
     // Top
-    cout << "+-------+" << endl;
+    for (short i = 0; i != values.size(); i++) {
+        cout << "+-------+";
+        if (i < _inputs)
+            cout << seperator;
+    }
+    cout << endl;
     
     // First row
-    if (*face >= 2 && *face <= 3)
-        cout << "|     O |" << endl;
-    else if (*face >= 4)
-        cout << "| O   O |" << endl;
-    else
-        cout << "|       |" << endl;
+    for (short i = 0; i != values.size(); i++) {
+        short _value = values[i];
+        if (_value >= 2 && _value <= 3)
+            cout << "|     O |";
+        else if (_value >= 4)
+            cout << "| O   O |";
+        else
+            cout << "|       |";
+        if (i < _inputs)
+            cout << seperator;
+    }
+    cout << endl;
     
     // Second row
-    if (*face % 2 == 1)
-        cout << "|   O   |" << endl;
-    else if (*face == 6)
-        cout << "| O   O |" << endl;
-    else
-        cout << "|       |" << endl;
+    for (short i = 0; i != values.size(); i++) {
+        short _value = values[i];
+        if (_value % 2 == 1)
+            cout << "|   O   |";
+        else if (_value == 6)
+            cout << "| O   O |";
+        else
+            cout << "|       |";
+        if (i < _inputs)
+            cout << seperator;
+    }
+    cout << endl;
     
     // Third row
-    if (*face >= 2 && *face <= 3)
-        cout << "| O     |" << endl;
-    else if (*face >= 4)
-        cout << "| O   O |" << endl;
-    else
-        cout << "|       |" << endl;
+    for (short i = 0; i != values.size(); i++) {
+        short _value = values[i];
+        if (_value >= 2 && _value <= 3)
+            cout << "| O     |";
+        else if (_value >= 4)
+            cout << "| O   O |";
+        else
+            cout << "|       |";
+        if (i < _inputs)
+            cout << seperator;
+    }
+    cout << endl;
     
     // Bottom
-    cout << "+-------+" << endl;
+    for (short i = 0; i != values.size(); i++) {
+        cout << "+-------+";
+        if (i < _inputs)
+            cout << seperator;
+    }
+    cout << endl;
 
     return 0;
 }
@@ -74,15 +108,35 @@ short getFace() {
     return _output;
 }
 
-int main() {
+int main(int argc, const char* argv[]) {
     using namespace std;
 
-    short _face = getFace();
+    if (argc < 2) {
+        cerr << "Provide at least one number as a parameter" << endl;
+        return 1;
+    }
     
-    // Echo our random number
-    if (_face > 0)
-        cout << "Number " << _face << " has been rolled!" << endl << endl;
+    short _count = atoi(argv[1]);
+    if (_count == 0) {
+        cerr << "The parameter's value was not a valid number" << endl;
+        return 1;
+    }
 
-    // Draw the face
-    return drawDiceFace(&_face);
+    vector<short> values = vector<short>();
+    for (short i = 0; i < _count; i++)
+        values.push_back(getFace());
+    
+    // Echo our random numbers back
+    cout << "Numbers ";
+    for (short i = 0; i != values.size(); i++) {
+        if (i > 0)
+            if (i < values.size() - 1)
+                cout << ", ";
+            else
+                cout << " and ";
+        cout << values[i];
+    }
+    cout << " have been rolled!" << endl << endl;
+
+    return drawDiceFaces(values, " - ");
 }

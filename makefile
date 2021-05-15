@@ -4,4 +4,4 @@ All:
 Run run:
 	make
 	@clear
-	@./a.out
+	@./a.out 2
