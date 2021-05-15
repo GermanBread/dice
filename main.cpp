@@ -3,11 +3,11 @@
 #include <cstdlib>
 #include <iostream>
 
-int drawDiceFaces(std::vector<short> values, const char* seperator) {
+int drawDiceFaces(const std::vector<short> values, const char* seperator) {
     using namespace std;
     
-    // Counts from 0. -1 would mean no faces
-    short _inputs = values.size() - 1;
+    // Counts from 0. -1 would mean no values
+    const short _inputs = values.size() - 1;
 
     // Check for invalid faces
     for (short face : values)
@@ -117,7 +117,7 @@ int main(int argc, const char* argv[]) {
     }
     
     short _count = atoi(argv[1]);
-    if (_count == 0) {
+    if (_count <= 0) {
         cerr << "The parameter's value was not a valid number" << endl;
         return 1;
     }

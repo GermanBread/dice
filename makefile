@@ -1,7 +1,10 @@
-All:
-	g++	*.cpp -O3 -o a.out
+all:
+	g++ *.cpp -O3 -o dice
 
-Run run:
+static:
+	g++ *.cpp -static -O3 -o dice
+
+run:
 	make
 	@clear
 	@./a.out 2
