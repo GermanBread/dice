@@ -7,4 +7,4 @@ static:
 run:
 	make
 	@clear
-	@./a.out 2
+	@./dice 2
